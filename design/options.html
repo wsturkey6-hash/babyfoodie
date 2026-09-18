@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F7F1EA">
+<title>babyfoodie 設計風格選項</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;600;800&family=Huninn&family=Iansui&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font-family: "Noto Sans TC", system-ui, sans-serif; background: #F7F1EA; color: #3A2C24; line-height: 1.5; }
+  h1, h2, h3 { text-wrap: balance; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .skip { position: absolute; left: 12px; top: -48px; padding: 8px 14px; border-radius: 10px; background: #3A2C24; color: #FFF; }
+  .skip:focus { top: 12px; }
+  .page-head { max-width: 1180px; margin: 0 auto; padding: 32px 20px 0; }
+  .page-head h1 { margin: 0 0 8px; font-size: 26px; }
+  .page-head p { margin: 0; color: #6E5A4D; }
+  .options { max-width: 1180px; margin: 0 auto; padding: 24px 20px 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 32px 24px; align-items: start; }
+  .option-info { max-width: 340px; margin: 0 auto 16px; }
+  .option-info h2 { margin: 0; font-size: 21px; display: flex; align-items: center; gap: 10px; }
+  .letter { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #3A2C24; color: #FFF; font-size: 16px; }
+  .option-info p { margin: 6px 0 0; font-size: 15px; color: #5E4A3E; }
+  .swatches { display: flex; gap: 6px; margin-top: 12px; }
+  .swatch { width: 34px; height: 34px; border-radius: 10px; border: 1px solid rgba(58, 44, 36, .12); }
+  .phone { max-width: 340px; margin: 0 auto; border: 10px solid #2B211C; border-radius: 44px; overflow: hidden; }
+
+  .app { background: var(--bg); color: var(--text); font-family: var(--font-body); padding: 20px 16px 0; display: flex; flex-direction: column; gap: 18px; }
+  .app h3 { margin: 0; font-family: var(--font-head); font-weight: var(--head-weight); font-size: 19px; }
+  .app-head { display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 54px; height: 54px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--text); }
+  .baby-name { margin: 0; font-family: var(--font-head); font-weight: var(--head-weight); font-size: 23px; }
+  .age { display: inline-block; margin-top: 2px; padding: 2px 10px; border-radius: 999px; font-size: 13px; background: var(--surface); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .block { display: flex; flex-direction: column; gap: 10px; }
+  .block-head { display: flex; align-items: center; justify-content: space-between; }
+  .date, .month-pill { font-size: 13px; color: var(--muted); }
+  .card { background: var(--surface); padding: 14px 16px; }
+  .rec-time { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .foods { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 12px; }
+  .food { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 15px; background: var(--primary-soft); color: var(--on-primary-soft); }
+  .new { font-size: 12px; padding: 1px 7px; border-radius: 999px; background: var(--accent); color: var(--text); }
+  .rec-meta { margin: 0; display: grid; gap: 6px; font-size: 14px; }
+  .rec-meta div { display: flex; gap: 10px; }
+  .rec-meta dt { flex: none; width: 2.6em; color: var(--muted); }
+  .rec-meta dd { margin: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font: inherit; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 4px 12px 4px 7px; background: var(--surface); color: var(--text); border: 0; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .chip .no { min-width: 22px; height: 22px; display: grid; place-items: center; border-radius: 999px; font-size: 12px; background: var(--bg); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .chip[data-state="tried"] { background: var(--tried); color: var(--on-tried); }
+  .chip[data-state="react"] { background: var(--warn); color: var(--on-warn); }
+  .chip .st { display: none; }
+  .chip[data-state="tried"] .st-check, .chip[data-state="react"] .st-alert { display: inline-block; }
+  .chip:focus-visible, .cta:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
+  @media (hover: hover) { .chip:hover, .cta:hover { filter: brightness(.95); } }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { display: inline-block; flex: none; width: 12px; height: 12px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(58, 44, 36, .3); }
+  .cta { font: inherit; font-family: var(--font-head); font-size: 17px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; background: var(--cta); color: var(--on-cta); border: 0; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .tabbar { margin: 0 -16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px 10px 14px; background: var(--surface); }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 0; border-radius: 14px; font-size: 12px; color: var(--muted); }
+  .tab.active { color: var(--tab-active); background: var(--tab-active-bg); }
+  .ic { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ic.sm { width: 18px; height: 18px; }
+  .ic.xs { width: 14px; height: 14px; }
+
+  /* A 軟糖黏土風 */
+  .opt-a { --bg: #FFF4EC; --surface: #FFFFFF; --text: #4A2C22; --muted: #8A5A48; --accent: #FFD66B; --primary-soft: #FFE1D3; --on-primary-soft: #7A3A22; --tried: #BFEBD6; --on-tried: #1F5B45; --warn: #FFD0D5; --on-warn: #8A1F2E; --cta: #FFB59A; --on-cta: #4A2C22; --tab-active: #C24A2C; --tab-active-bg: #FFE9DE; --font-body: "Chiron GoRound TC", sans-serif; --font-head: "Chiron GoRound TC", sans-serif; --head-weight: 800; }
+  .opt-a .card { border-radius: 28px; box-shadow: 10px 10px 22px rgba(209, 142, 110, .28), -8px -8px 18px rgba(255, 255, 255, .95), inset -3px -3px 8px rgba(209, 142, 110, .12); }
+  .opt-a .food { border-radius: 999px; box-shadow: inset -2px -2px 5px rgba(122, 58, 34, .12), inset 2px 2px 5px rgba(255, 255, 255, .8); }
+  .opt-a .chip { border-radius: 999px; box-shadow: 4px 4px 10px rgba(209, 142, 110, .25), -3px -3px 8px rgba(255, 255, 255, .9); transition: transform .25s cubic-bezier(.34, 1.56, .64, 1); }
+  .opt-a .chip:active, .opt-a .cta:active { transform: scale(.94); }
+  .opt-a .cta { border-radius: 26px; box-shadow: 8px 8px 18px rgba(209, 142, 110, .35), inset -4px -4px 8px rgba(194, 74, 44, .18), inset 4px 4px 8px rgba(255, 255, 255, .55); transition: transform .25s cubic-bezier(.34, 1.56, .64, 1); }
+  .opt-a .avatar { box-shadow: inset -3px -3px 6px rgba(0, 0, 0, .08), inset 3px 3px 6px rgba(255, 255, 255, .7), 4px 4px 10px rgba(209, 142, 110, .3); }
+  .opt-a .age { box-shadow: 3px 3px 8px rgba(209, 142, 110, .2); }
+  .opt-a .tabbar { border-radius: 28px 28px 0 0; box-shadow: 0 -6px 18px rgba(209, 142, 110, .18); }
+
+  /* B 貼紙手帳風 */
+  .opt-b { --bg: #FFF6E5; --surface: #FFFFFF; --text: #3B2418; --muted: #7A5A48; --ink: #3B2418; --accent: #FFC93C; --primary-soft: #FFD9B8; --on-primary-soft: #3B2418; --tried: #8FD17F; --on-tried: #3B2418; --warn: #FF6B61; --on-warn: #3B2418; --cta: #FF8A4C; --on-cta: #3B2418; --tab-active: #3B2418; --tab-active-bg: #FFC93C; --font-body: "Huninn", sans-serif; --font-head: "Huninn", sans-serif; --head-weight: 400; }
+  .opt-b .app { background-image: radial-gradient(#EADBC0 1.3px, transparent 1.3px); background-size: 18px 18px; }
+  .opt-b .card { border: 2.5px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 var(--ink); }
+  .opt-b .food { border: 2px solid var(--ink); border-radius: 999px; }
+  .opt-b .chip { border: 2px solid var(--ink); border-radius: 12px; box-shadow: 2px 2px 0 var(--ink); transition: transform .12s ease-out; }
+  .opt-b .chip:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
+  .opt-b .chip .no { border: 1.5px solid var(--ink); background: var(--surface); color: var(--ink); }
+  .opt-b .cta { border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); transition: transform .12s ease-out; }
+  .opt-b .cta:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .opt-b .avatar { border: 2.5px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+  .opt-b .age { border: 2px solid var(--ink); background: var(--accent); color: var(--ink); transform: rotate(-3deg); }
+  .opt-b .new { border: 1.5px solid var(--ink); transform: rotate(4deg); }
+  .opt-b .month-pill { padding: 1px 10px; border: 2px solid var(--ink); border-radius: 999px; background: var(--surface); color: var(--ink); }
+  .opt-b .dot { border: 1.5px solid var(--ink); }
+  .opt-b .tabbar { border-top: 2.5px solid var(--ink); }
+  .opt-b .tab.active { border: 2px solid var(--ink); }
+
+  /* C 手繪塗鴉風 */
+  .opt-c { --bg: #FBF3E6; --surface: #FFFDF8; --text: #4B3A2F; --muted: #75604F; --line: #B89B7F; --accent: #F2C57C; --primary-soft: #FBE3C8; --on-primary-soft: #6B3A18; --tried: #C9DDC1; --on-tried: #2F4A2C; --warn: #F6CFC9; --on-warn: #7A2530; --cta: #A94E1E; --on-cta: #FFFFFF; --tab-active: #A94E1E; --tab-active-bg: #FBE3C8; --font-body: "Noto Sans TC", sans-serif; --font-head: "Iansui", sans-serif; --head-weight: 400; }
+  .opt-c .app h3 { text-decoration: underline wavy var(--accent); text-decoration-thickness: 2px; text-underline-offset: 7px; }
+  .opt-c .card { border: 2px solid var(--line); border-radius: 22px 8px 26px 10px / 10px 24px 8px 22px; }
+  .opt-c .food { border: 1.5px solid var(--line); border-radius: 16px 8px 14px 10px / 10px 14px 8px 16px; }
+  .opt-c .chip { border: 1.5px solid var(--line); border-radius: 18px 8px 16px 10px / 10px 16px 8px 18px; transition: transform .2s ease-out; }
+  .opt-c .chip:active { transform: rotate(-2deg) scale(.97); }
+  .opt-c .cta { border-radius: 26px 12px 24px 14px / 14px 24px 12px 26px; transition: transform .2s ease-out; }
+  .opt-c .cta:active { transform: rotate(-1deg) scale(.97); }
+  .opt-c .avatar { border: 2px dashed var(--line); }
+  .opt-c .age { border: 1.5px dashed var(--line); }
+  .opt-c .tabbar { border-top: 2px dashed var(--line); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip, .cta { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#options">跳到設計選項</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-baby" viewBox="0 0 24 24"><path d="M9 12h.01"/><path d="M15 12h.01"/><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/><path d="M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+</svg>
+
+<header class="page-head">
+  <h1><span translate="no">babyfoodie</span> 設計風格選項</h1>
+  <p>三種都是休閒活潑、暖色調，差在質感與字型。每個畫面都可以點點看：試敏表的食材點一下會切換「已嘗試 → 有反應 → 未嘗試」。</p>
+</header>
+
+<main class="options" id="options">
+  <section class="opt-a">
+    <div class="option-info">
+      <h2><span class="letter">A</span>軟糖黏土風</h2>
+      <p>立體、Q 彈、像軟糖一樣圓潤，按下去會「彈」一下。<span translate="no">ui-ux-pro-max</span> 對兒童／親子產品的首選風格。</p>
+      <p>字型：<span translate="no">Chiron GoRound TC</span>（圓體，粗細齊全）</p>
+      <div class="swatches" role="img" aria-label="配色：#FFF4EC、#FFB59A、#FFD66B、#BFEBD6、#4A2C22">
+        <span class="swatch" style="background:#FFF4EC"></span><span class="swatch" style="background:#FFB59A"></span><span class="swatch" style="background:#FFD66B"></span><span class="swatch" style="background:#BFEBD6"></span><span class="swatch" style="background:#4A2C22"></span>
+      </div>
+    </div>
+    <div class="phone" data-mock></div>
+  </section>
+
+  <section class="opt-b">
+    <div class="option-info">
+      <h2><span class="letter">B</span>貼紙手帳風</h2>
+      <p>粗框線加硬陰影，像貼在寶寶手帳上的貼紙；撞色鮮明，三種裡最有活力。</p>
+      <p>字型：粉圓 <span translate="no">Huninn</span>（可愛圓體）</p>
+      <div class="swatches" role="img" aria-label="配色：#FFF6E5、#FF8A4C、#FFC93C、#8FD17F、#3B2418">
+        <span class="swatch" style="background:#FFF6E5"></span><span class="swatch" style="background:#FF8A4C"></span><span class="swatch" style="background:#FFC93C"></span><span class="swatch" style="background:#8FD17F"></span><span class="swatch" style="background:#3B2418"></span>
+      </div>
+    </div>
+    <div class="phone" data-mock></div>
+  </section>
+
+  <section class="opt-c">
+    <div class="option-info">
+      <h2><span class="letter">C</span>手繪塗鴉風</h2>
+      <p>不規則手繪邊框、虛線、波浪底線，像媽媽手寫的育兒日記；三種裡最溫柔。</p>
+      <p>字型：標題 芫荽 <span translate="no">Iansui</span>（手寫）＋內文 思源黑體</p>
+      <div class="swatches" role="img" aria-label="配色：#FBF3E6、#A94E1E、#F2C57C、#C9DDC1、#4B3A2F">
+        <span class="swatch" style="background:#FBF3E6"></span><span class="swatch" style="background:#A94E1E"></span><span class="swatch" style="background:#F2C57C"></span><span class="swatch" style="background:#C9DDC1"></span><span class="swatch" style="background:#4B3A2F"></span>
+      </div>
+    </div>
+    <div class="phone" data-mock></div>
+  </section>
+</main>
+
+<template id="mock">
+  <div class="app">
+    <header class="app-head">
+      <div class="avatar"><svg class="ic" aria-hidden="true"><use href="#i-baby"/></svg></div>
+      <div>
+        <p class="baby-name">小芒果</p>
+        <span class="age">6&nbsp;個月&nbsp;4&nbsp;天</span>
+      </div>
+    </header>
+
+    <section class="block">
+      <div class="block-head"><h3>今日紀錄</h3><span class="date">9/19（六）</span></div>
+      <article class="card">
+        <div class="rec-time"><svg class="ic sm" aria-hidden="true"><use href="#i-clock"/></svg>11:30</div>
+        <div class="foods">
+          <span class="food">花椰菜<span class="new">第一次</span></span>
+          <span class="food">十倍粥</span>
+        </div>
+        <dl class="rec-meta">
+          <div><dt>份量</dt><dd>2&nbsp;匙</dd></div>
+          <div><dt>觀察</dt><dd>吃完很開心，沒有紅疹</dd></div>
+        </dl>
+      </article>
+    </section>
+
+    <section class="block">
+      <div class="block-head"><h3>試敏表</h3><span class="month-pill">4&nbsp;個月</span></div>
+      <div class="chips">
+        <button class="chip" type="button" data-state="tried"><span class="no">1</span>十倍粥<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="tried"><span class="no">2</span>米湯<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="tried"><span class="no">3</span>小米粥<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="tried"><span class="no">4</span>藜麥<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="react"><span class="no">5</span>紅藜<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="tried"><span class="no">6</span>紅蘿蔔<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="tried"><span class="no">7</span>花椰菜<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="untried"><span class="no">8</span>高麗菜<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+        <button class="chip" type="button" data-state="untried"><span class="no">9</span>南瓜<svg class="ic xs st st-check" aria-hidden="true"><use href="#i-check"/></svg><svg class="ic xs st st-alert" aria-hidden="true"><use href="#i-alert"/></svg></button>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--tried)" aria-hidden="true"></span>已嘗試</span>
+        <span><span class="dot" style="background:var(--warn)" aria-hidden="true"></span>有反應</span>
+        <span><span class="dot" style="background:var(--surface)" aria-hidden="true"></span>未嘗試</span>
+      </div>
+    </section>
+
+    <button class="cta" type="button"><svg class="ic sm" aria-hidden="true"><use href="#i-plus"/></svg>新增紀錄</button>
+
+    <div class="tabbar">
+      <span class="tab active"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>紀錄</span>
+      <span class="tab"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg>試敏表</span>
+      <span class="tab"><svg class="ic" aria-hidden="true"><use href="#i-baby"/></svg>寶寶</span>
+    </div>
+  </div>
+</template>
+
+<script>
+  const tpl = document.getElementById('mock');
+  document.querySelectorAll('[data-mock]').forEach((el) => el.append(tpl.content.cloneNode(true)));
+
+  const states = ['untried', 'tried', 'react'];
+  const labels = { untried: '未嘗試', tried: '已嘗試', react: '有反應' };
+  const setState = (chip, state) => {
+    chip.dataset.state = state;
+    chip.querySelector('.sr-only').textContent = `（${labels[state]}）`;
+  };
+  document.querySelectorAll('.chip').forEach((chip) => {
+    chip.append(Object.assign(document.createElement('span'), { className: 'sr-only' }));
+    setState(chip, chip.dataset.state);
+  });
+  document.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    const i = states.indexOf(chip.dataset.state);
+    setState(chip, states[(i + 1) % states.length]);
+  });
+</script>
+</body>
+</html>

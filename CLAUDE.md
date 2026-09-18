@@ -9,6 +9,7 @@
 2. **設計**：這是母嬰產品。設計一律使用 `ui-ux-pro-max` skill，風格為「休閒活潑」、暖色調；遇到設計決策時，先推薦幾個選項讓使用者選。
 3. **檢查**：網頁每次調整完，都要用 `web-design-guidelines` skill 檢查，並修正檢查出的問題。
 4. **進度**：每做完一件事，就更新 PROGRESS.md 記錄當前進度，然後 commit 並 push 到 GitHub。
+5. **分工**：Claude 是 supervisor。寫程式時可以依難度開 subagent 分派工作：較複雜的交給 Sonnet、簡單的交給 Haiku；subagent 做完後一律由 supervisor 審查。
 
 ## 專案資訊
 

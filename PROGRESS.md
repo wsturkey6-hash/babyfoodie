@@ -11,6 +11,7 @@
 - 2026-09-19　建立 GitHub repo（公開），寫入專案規範 CLAUDE.md
 - 2026-09-19　用 ui-ux-pro-max 做 3 個設計選項（design/options.html），使用者選定 B 貼紙手帳風；頁面已用 web-design-guidelines 檢查並修正
 - 2026-09-19　確定規格，寫成 SPEC.md
+- 2026-09-19　新增規範 5：Claude 當 supervisor，寫程式可依難度分派給 Sonnet／Haiku subagent，最後由 supervisor 審查
 
 ## 下一步
 

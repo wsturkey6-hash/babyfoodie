@@ -1,7 +1,7 @@
 # babyfoodie — 專案規範
 
 紀錄寶寶開始嘗試副食品的網頁，介面語言為繁體中文。
-進度見 [PROGRESS.md](PROGRESS.md)。
+規格見 [SPEC.md](SPEC.md)，進度見 [PROGRESS.md](PROGRESS.md)。
 
 ## 工作規範（每次都必須遵守）
 
@@ -13,5 +13,7 @@
 ## 專案資訊
 
 - GitHub：https://github.com/wsturkey6-hash/babyfoodie （公開 repo）
+- 技術：純 HTML / CSS / JavaScript，不用框架、不需要建置
 - 部署：GitHub Pages
-- 資料：存在使用者瀏覽器本機，不會進 repo
+- 資料：存在使用者瀏覽器本機（localStorage），不會進 repo
+- 設計：貼紙手帳風，細節見 SPEC.md「設計」

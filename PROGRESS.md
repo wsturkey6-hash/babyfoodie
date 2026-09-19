@@ -4,7 +4,7 @@
 
 ## 目前階段
 
-網站骨架完成並上線，下一步做寶寶頁。
+網站骨架完成並上線（https://wsturkey6-hash.github.io/babyfoodie/ ），下一步做寶寶頁。
 
 ## 已完成
 

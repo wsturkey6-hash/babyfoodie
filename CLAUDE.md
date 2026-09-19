@@ -15,6 +15,7 @@
 
 - GitHub：https://github.com/wsturkey6-hash/babyfoodie （公開 repo）
 - 技術：純 HTML / CSS / JavaScript，不用框架、不需要建置
-- 部署：GitHub Pages
+- 部署：GitHub Pages，https://wsturkey6-hash.github.io/babyfoodie/ （push 到 main 後自動更新）
+- 本機預覽：.claude/launch.json（python http.server，port 5500）
 - 資料：存在使用者瀏覽器本機（localStorage），不會進 repo
 - 設計：貼紙手帳風，細節見 SPEC.md「設計」

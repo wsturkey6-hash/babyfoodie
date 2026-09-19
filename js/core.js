@@ -2,16 +2,23 @@
   'use strict';
 
   const STORAGE_KEY = 'babyfoodie';
-  const DEFAULT_STATE = { version: 1, baby: null };
+  const DEFAULT_STATE = { version: 1, baby: null, marks: {}, records: [], customFoods: [] };
+  const VALID_MARKS = ['untried', 'tried', 'reaction'];
 
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       let parsed = raw === null ? {} : JSON.parse(raw);
       if (typeof parsed !== 'object' || parsed === null) parsed = {};
-      return Object.assign({}, DEFAULT_STATE, parsed);
+      const state = Object.assign({}, DEFAULT_STATE, parsed);
+      // marks/records/customFoods are mutated in place by callers, so give
+      // each load its own fresh container instead of sharing DEFAULT_STATE's.
+      if (!parsed.marks) state.marks = {};
+      if (!parsed.records) state.records = [];
+      if (!parsed.customFoods) state.customFoods = [];
+      return state;
     } catch (e) {
-      return Object.assign({}, DEFAULT_STATE);
+      return Object.assign({}, DEFAULT_STATE, { marks: {}, records: [], customFoods: [] });
     }
   }
 
@@ -80,6 +87,22 @@
     return `${parts.months}${nbsp}個月${nbsp}${parts.days}${nbsp}天`;
   }
 
+  function foodStatus(state, name) {
+    const marks = state && typeof state.marks === 'object' && state.marks !== null ? state.marks : {};
+    const mark = marks[name];
+    if (VALID_MARKS.includes(mark)) return mark;
+    const records = state && Array.isArray(state.records) ? state.records : [];
+    const tried = records.some(function (record) {
+      return record && Array.isArray(record.foods) && record.foods.includes(name);
+    });
+    return tried ? 'tried' : 'untried';
+  }
+
+  function currentMonthGroup(ageMonths) {
+    if (typeof ageMonths !== 'number' || Number.isNaN(ageMonths) || ageMonths < 4) return null;
+    return Math.min(ageMonths, 10);
+  }
+
   function renderBabyHeader(headerEl, options) {
     const baby = loadState().baby;
     if (!baby) return;
@@ -134,6 +157,8 @@
     todayISO,
     ageParts,
     formatAge,
+    foodStatus,
+    currentMonthGroup,
     renderBabyHeader
   };
 

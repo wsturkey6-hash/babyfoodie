@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/core.js"></script>
+  <script src="js/foods.js"></script>
+  <script src="js/table.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要內容</a>
@@ -24,10 +26,27 @@
     <script>babyfoodie.renderBabyHeader(document.querySelector('.baby-header'), { link: true });</script>
     <main id="main" class="page" tabindex="-1">
       <h1 class="page-title">試敏表</h1>
-      <section class="card placeholder">
-        <span class="sticker">製作中</span>
-        <p>這裡會列出 4～10&nbsp;個月可以嘗試的食材，吃過的會變色。</p>
-      </section>
+      <ul class="legend" role="list" aria-label="狀態說明">
+        <li class="legend__item"><span class="status-swatch status-swatch--tried" aria-hidden="true"><svg class="icon icon--xs"><use href="assets/icons.svg#check"/></svg></span>已嘗試</li>
+        <li class="legend__item"><span class="status-swatch status-swatch--reaction" aria-hidden="true"><svg class="icon icon--xs"><use href="assets/icons.svg#alert"/></svg></span>有反應</li>
+        <li class="legend__item"><span class="status-swatch status-swatch--untried" aria-hidden="true"></span>未嘗試</li>
+      </ul>
+      <p class="table-error" id="food-table-error" role="alert" hidden></p>
+      <nav class="month-jump" aria-label="跳到月份">
+        <ul class="month-jump__list" role="list">
+          <li><a class="month-jump__link" href="#m4">4&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#m5">5&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#m6">6&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#m7">7&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#m8">8&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#m9">9&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#m10">10&nbsp;個月</a></li>
+          <li><a class="month-jump__link" href="#other">其他</a></li>
+        </ul>
+      </nav>
+      <div class="food-table" id="food-table"></div>
+      <script>babyfoodie.renderFoodTable(document.getElementById('food-table'));</script>
+      <p class="sr-only" id="food-table-status" role="status" aria-live="polite"></p>
     </main>
   </div>
   <nav class="tabbar" aria-label="主要頁面">
@@ -44,5 +63,18 @@
       <span>寶寶</span>
     </a>
   </nav>
+  <dialog class="sheet" id="food-sheet" aria-labelledby="food-sheet-title">
+    <form class="sheet__form" method="dialog">
+      <div class="sheet__head">
+        <h2 class="sheet__title" id="food-sheet-title"></h2>
+        <button class="sheet__close" type="submit" value="" aria-label="關閉"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#x"/></svg></button>
+      </div>
+      <div class="status-options" role="group" aria-labelledby="food-sheet-title">
+        <button class="status-option" type="submit" value="untried" aria-pressed="false"><span class="status-swatch status-swatch--untried" aria-hidden="true"></span>未嘗試</button>
+        <button class="status-option" type="submit" value="tried" aria-pressed="false"><span class="status-swatch status-swatch--tried" aria-hidden="true"><svg class="icon icon--xs"><use href="assets/icons.svg#check"/></svg></span>已嘗試</button>
+        <button class="status-option" type="submit" value="reaction" aria-pressed="false"><span class="status-swatch status-swatch--reaction" aria-hidden="true"><svg class="icon icon--xs"><use href="assets/icons.svg#alert"/></svg></span>有反應</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 ## 目前階段
 
-寶寶頁完成並上線（https://wsturkey6-hash.github.io/babyfoodie/ ），下一步做試敏表頁。
+試敏表頁完成並上線（https://wsturkey6-hash.github.io/babyfoodie/ ），下一步做紀錄頁。
 
 ## 已完成
 
@@ -17,8 +17,9 @@
 
 - 2026-09-19　寶寶頁：名字、生日表單（驗證、儲存、離開前提醒），每頁頁首顯示寶寶名字和月齡（js/core.js、js/baby.js）。程式與測試由 Sonnet、樣式由 Sonnet、HTML 由 Haiku 撰寫，supervisor 審查；月齡計算有 18 項自動測試；已用 web-design-guidelines 檢查並修正（名字加 translate="no"、iOS 日期欄位靠左）
 
+- 2026-09-19　試敏表頁：118 項依月齡分區、三種狀態、點食材跳出選單改狀態、標示並自動捲到目前月齡、月份跳轉列、「其他」區提示（js/foods.js 由 SPEC.md 產生、js/table.js）。資料與 HTML 由 Haiku、程式與測試由 Sonnet、樣式由 Sonnet 撰寫，supervisor 審查修正：資料檔錯字（砠瓜→瓠瓜）、儲存失敗時還原狀態、選項字級、跳轉列焦點外框、遮罩後備色、目前月齡貼紙對比；自動測試 40 項（含資料檔與 SPEC.md 逐項比對）；已用 web-design-guidelines 檢查
+
 ## 下一步
 
-1. 試敏表頁
-2. 紀錄頁
-3. 匯出／匯入備份
+1. 紀錄頁
+2. 匯出／匯入備份

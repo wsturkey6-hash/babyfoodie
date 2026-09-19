@@ -18,5 +18,18 @@
 - 部署：GitHub Pages，https://wsturkey6-hash.github.io/babyfoodie/ （push 到 main 後自動更新）
 - 本機預覽：.claude/launch.json（python http.server，port 5500）
 - 測試：在專案根目錄執行 `node --test`（Windows 上 `node --test tests/` 這種指定資料夾的寫法不能用）
+
+## 資料結構（localStorage 的 `babyfoodie`）
+
+```
+{ version: 1,
+  baby: { name, birthday: 'YYYY-MM-DD' } | null,
+  marks: { [食材名稱]: 'untried' | 'tried' | 'reaction' },   // 試敏表上的手動標記
+  records: [{ foods: [食材名稱], ... }],                     // 其他欄位在做紀錄頁時定
+  customFoods: [食材名稱] }
+```
+
+- 食材以名稱當識別（118 項名稱不重複）。試敏表清單以 SPEC.md 為準，`js/foods.js` 必須與它完全一致（`tests/foods.test.js` 會檢查）。
+- 食材狀態：有手動標記就用手動標記；否則只要有任何紀錄含這個食材就是「已嘗試」。
 - 資料：存在使用者瀏覽器本機（localStorage），不會進 repo
 - 設計：貼紙手帳風，細節見 SPEC.md「設計」

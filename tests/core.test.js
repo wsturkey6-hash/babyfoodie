@@ -62,24 +62,24 @@ test('formatAge uses no-break spaces between numbers and units', () => {
 });
 
 test('loadState returns defaults when nothing is stored', () => {
-  assert.deepEqual(core.loadState(), { version: 1, baby: null });
+  assert.deepEqual(core.loadState(), { version: 1, baby: null, marks: {}, records: [], customFoods: [] });
 });
 
 test('loadState returns defaults when stored JSON is invalid', () => {
   globalThis.localStorage.setItem(core.STORAGE_KEY, '{not valid json');
-  assert.deepEqual(core.loadState(), { version: 1, baby: null });
+  assert.deepEqual(core.loadState(), { version: 1, baby: null, marks: {}, records: [], customFoods: [] });
 });
 
 test('loadState preserves unknown top-level fields', () => {
   const stored = { version: 1, baby: null, futureFeature: { flag: true }, count: 3 };
   globalThis.localStorage.setItem(core.STORAGE_KEY, JSON.stringify(stored));
-  assert.deepEqual(core.loadState(), stored);
+  assert.deepEqual(core.loadState(), Object.assign({}, stored, { marks: {}, records: [], customFoods: [] }));
 });
 
 test('saveState persists JSON and loadState reads it back', () => {
   const state = { version: 1, baby: { name: '小芒果', birthday: '2026-03-15' } };
   assert.equal(core.saveState(state), true);
-  assert.deepEqual(core.loadState(), state);
+  assert.deepEqual(core.loadState(), Object.assign({}, state, { marks: {}, records: [], customFoods: [] }));
 });
 
 test('saveState returns false when localStorage.setItem throws', () => {
@@ -88,3 +88,42 @@ test('saveState returns false when localStorage.setItem throws', () => {
   };
   assert.equal(core.saveState({ version: 1, baby: null }), false);
 });
+
+test('foodStatus: a manual mark overrides a matching record', () => {
+  const state = { marks: { 蘋果: 'reaction' }, records: [{ foods: ['蘋果'] }] };
+  assert.equal(core.foodStatus(state, '蘋果'), 'reaction');
+});
+
+test('foodStatus: derives tried from a record when no mark is set', () => {
+  const state = { marks: {}, records: [{ foods: ['蘋果'] }] };
+  assert.equal(core.foodStatus(state, '蘋果'), 'tried');
+});
+
+test('foodStatus: defaults to untried with no mark or record', () => {
+  const state = { marks: {}, records: [] };
+  assert.equal(core.foodStatus(state, '蘋果'), 'untried');
+});
+
+test('foodStatus: ignores an invalid mark value', () => {
+  const state = { marks: { 蘋果: 'bogus' }, records: [] };
+  assert.equal(core.foodStatus(state, '蘋果'), 'untried');
+});
+
+test('foodStatus: tolerates missing marks and records fields', () => {
+  assert.equal(core.foodStatus({}, '蘋果'), 'untried');
+});
+
+const monthGroupExamples = [
+  [3, null],
+  [4, 4],
+  [6, 6],
+  [10, 10],
+  [13, 10],
+  [undefined, null]
+];
+
+for (const [ageMonths, expected] of monthGroupExamples) {
+  test(`currentMonthGroup(${ageMonths})`, () => {
+    assert.equal(core.currentMonthGroup(ageMonths), expected);
+  });
+}

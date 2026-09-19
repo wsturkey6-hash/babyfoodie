@@ -78,6 +78,10 @@ a:focus-visible, button:focus-visible {
   outline-offset: 2px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 /* ===== Skip link ===== */
 .skip-link {
   position: fixed;
@@ -158,6 +162,71 @@ a.baby-setup:active {
   box-shadow: 0 0 0 var(--color-ink);
 }
 
+/* ===== Baby card ===== */
+.baby-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+a.baby-card {
+  transition: transform var(--motion-duration) var(--motion-easing);
+}
+
+.baby-card__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  border: var(--border-thick) solid var(--color-ink);
+  border-radius: 50%;
+  background: var(--color-mustard);
+  box-shadow: var(--shadow-sm);
+}
+
+.baby-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.baby-card__name {
+  font-size: 23px;
+  overflow-wrap: anywhere;
+}
+
+.baby-card__age {
+  margin-top: 2px;
+  padding: 2px 10px;
+  border: var(--border-thin) solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background: var(--color-mustard);
+  color: var(--color-ink);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  transform: rotate(-3deg);
+}
+
+@media (hover: hover) {
+  a.baby-card:hover {
+    transform: translate(-1px, -1px);
+  }
+}
+
+a.baby-card:active {
+  transform: translate(2px, 2px);
+}
+
+a.baby-card:active .baby-card__avatar {
+  box-shadow: 0 0 0 var(--color-ink);
+}
+
 /* ===== Page title ===== */
 .page-title {
   position: relative;
@@ -193,6 +262,111 @@ a.baby-setup:active {
 .placeholder p {
   margin: var(--space-2) 0 0;
   color: var(--color-ink-soft);
+}
+
+/* ===== Form ===== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: 15px;
+  color: var(--color-ink);
+}
+
+.field__input {
+  min-height: 48px;
+  width: 100%;
+  padding: 0 var(--space-3);
+  border: var(--border-thin) solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.field__input::placeholder {
+  color: var(--color-ink-soft);
+}
+
+.field__input:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.field__input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+}
+
+.field__input::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+.field__input[aria-invalid="true"] {
+  border-width: var(--border-thick);
+  border-color: var(--color-tomato);
+}
+
+.field__error {
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border-left: var(--border-thick) solid var(--color-tomato);
+  color: var(--color-ink);
+  font-size: 14px;
+}
+
+.form__status {
+  margin: 0;
+  min-height: 24px;
+  color: var(--color-ink);
+  font-size: 15px;
+}
+
+/* ===== Button ===== */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  font-family: inherit;
+  font-size: 17px;
+  cursor: pointer;
+  transition: transform var(--motion-duration) var(--motion-easing);
+}
+
+.button--primary {
+  border: var(--border-thick) solid var(--color-ink);
+  border-radius: 16px;
+  background: var(--color-orange);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-ink);
+}
+
+@media (hover: hover) {
+  .button--primary:hover {
+    transform: translate(-1px, -1px);
+  }
+}
+
+.button--primary:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--color-ink);
 }
 
 /* ===== Sticker ===== */
@@ -311,6 +485,8 @@ a.baby-setup:active {
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   a.baby-setup,
+  a.baby-card,
+  .button,
   .tabbar__tab {
     transition: none !important;
   }

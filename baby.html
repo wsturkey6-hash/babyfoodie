@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/core.js"></script>
+  <script src="js/baby.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要內容</a>
@@ -19,12 +21,23 @@
         <span class="baby-setup__text">還沒設定寶寶資料</span>
       </div>
     </header>
+    <script>babyfoodie.renderBabyHeader(document.querySelector('.baby-header'), { link: false });</script>
     <main id="main" class="page" tabindex="-1">
       <h1 class="page-title">寶寶</h1>
-      <section class="card placeholder">
-        <span class="sticker">製作中</span>
-        <p>這裡可以輸入寶寶的名字和生日，並算出目前月齡。</p>
-      </section>
+      <form class="card form" id="baby-form" novalidate>
+        <div class="field">
+          <label class="field__label" for="baby-name">名字</label>
+          <input class="field__input" id="baby-name" name="name" type="text" required maxlength="20" autocomplete="off" spellcheck="false" placeholder="例如：小芒果…" aria-describedby="baby-name-error">
+          <p class="field__error" id="baby-name-error" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="baby-birthday">生日</label>
+          <input class="field__input" id="baby-birthday" name="birthday" type="date" required autocomplete="off" aria-describedby="baby-birthday-error">
+          <p class="field__error" id="baby-birthday-error" hidden></p>
+        </div>
+        <button class="button button--primary" type="submit">儲存</button>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </form>
     </main>
   </div>
   <nav class="tabbar" aria-label="主要頁面">

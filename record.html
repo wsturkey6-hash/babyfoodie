@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF6E5">
+  <title>新增紀錄｜babyfoodie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/core.js"></script>
+  <script src="js/foods.js"></script>
+  <script src="js/record-form.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <div class="app">
+    <header class="baby-header">
+      <a class="baby-setup" href="baby.html">
+        <span class="baby-setup__avatar"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#baby"/></svg></span>
+        <span class="baby-setup__text">設定寶寶資料</span>
+        <svg class="icon icon--sm" aria-hidden="true"><use href="assets/icons.svg#chevron-right"/></svg>
+      </a>
+    </header>
+    <script>babyfoodie.renderBabyHeader(document.querySelector('.baby-header'), { link: true });</script>
+    <main id="main" class="page" tabindex="-1">
+      <a class="back-link" href="index.html"><svg class="icon icon--sm" aria-hidden="true"><use href="assets/icons.svg#chevron-left"/></svg>回到紀錄</a>
+      <h1 class="page-title" id="record-title">新增紀錄</h1>
+      <form class="card form" id="record-form" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label class="field__label" for="record-date">日期</label>
+            <input class="field__input" id="record-date" name="date" type="date" required autocomplete="off" aria-describedby="record-date-error">
+            <p class="field__error" id="record-date-error" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="record-time">時間</label>
+            <input class="field__input" id="record-time" name="time" type="time" required autocomplete="off" aria-describedby="record-time-error">
+            <p class="field__error" id="record-time-error" hidden></p>
+          </div>
+        </div>
+        <fieldset class="field fieldset">
+          <legend class="field__label">吃了什麼</legend>
+          <ul class="picked-foods" id="picked-foods" role="list" aria-label="已選的食材"></ul>
+          <div class="food-search">
+            <label class="sr-only" for="food-search">搜尋或輸入食材</label>
+            <input class="field__input" id="food-search" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="food-search-results" aria-describedby="record-foods-error" autocomplete="off" spellcheck="false" enterkeyhint="done" placeholder="搜尋或輸入食材，例如：南瓜…">
+            <ul class="food-search__results" id="food-search-results" role="listbox" aria-label="搜尋結果" hidden></ul>
+          </div>
+          <div class="quick-picks" id="quick-picks"></div>
+          <p class="field__error" id="record-foods-error" hidden></p>
+        </fieldset>
+        <div class="field">
+          <label class="field__label" for="record-amount">份量</label>
+          <div class="amount">
+            <input class="field__input" id="record-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="例如：2…" aria-describedby="record-amount-error">
+            <label class="sr-only" for="record-unit">單位</label>
+            <select class="field__input amount__unit" id="record-unit" name="unit">
+              <option value="匙">匙</option>
+              <option value="ml">ml</option>
+              <option value="g">g</option>
+            </select>
+          </div>
+          <p class="field__error" id="record-amount-error" hidden></p>
+        </div>
+        <fieldset class="field fieldset">
+          <legend class="field__label">觀察</legend>
+          <div class="check-chips">
+            <label class="check-chip"><input type="checkbox" name="reactions" value="紅疹"><span>紅疹</span></label>
+            <label class="check-chip"><input type="checkbox" name="reactions" value="腹瀉"><span>腹瀉</span></label>
+            <label class="check-chip"><input type="checkbox" name="reactions" value="嘔吐"><span>嘔吐</span></label>
+            <label class="check-chip"><input type="checkbox" name="reactions" value="便秘"><span>便秘</span></label>
+            <label class="check-chip"><input type="checkbox" name="reactions" value="脹氣"><span>脹氣</span></label>
+          </div>
+          <label class="field__label" for="record-note">備註</label>
+          <textarea class="field__input field__input--textarea" id="record-note" name="note" rows="3" maxlength="500" autocomplete="off" placeholder="例如：吃完很開心…"></textarea>
+        </fieldset>
+        <button class="button button--primary" type="submit">儲存</button>
+        <p class="form__status" id="record-status" role="status" aria-live="polite"></p>
+      </form>
+      <button class="button button--danger record-delete" id="record-delete" type="button" hidden>刪除這筆紀錄</button>
+      <dialog class="sheet" id="reaction-sheet" aria-labelledby="reaction-sheet-title">
+        <form class="sheet__form" method="dialog">
+          <div class="sheet__head">
+            <h2 class="sheet__title" id="reaction-sheet-title">要把哪些食材標成「有反應」？</h2>
+          </div>
+          <p class="sheet__text">勾選的食材會在試敏表標成「有反應」。</p>
+          <div class="check-chips" id="reaction-foods"></div>
+          <div class="sheet__actions">
+            <button class="button button--primary" type="submit" value="mark">標記</button>
+            <button class="button button--secondary" type="submit" value="skip">先不要</button>
+          </div>
+        </form>
+      </dialog>
+      <dialog class="sheet" id="delete-sheet" aria-labelledby="delete-sheet-title">
+        <form class="sheet__form" method="dialog">
+          <div class="sheet__head">
+            <h2 class="sheet__title" id="delete-sheet-title">要刪除這筆紀錄嗎？</h2>
+          </div>
+          <p class="sheet__text">刪除後無法復原。</p>
+          <div class="sheet__actions">
+            <button class="button button--danger" type="submit" value="delete">刪除</button>
+            <button class="button button--secondary" type="submit" value="cancel">取消</button>
+          </div>
+        </form>
+      </dialog>
+      <script>babyfoodie.initRecordForm(document.getElementById('record-form'));</script>
+    </main>
+  </div>
+  <nav class="tabbar" aria-label="主要頁面">
+    <a class="tabbar__tab" href="index.html" aria-current="page">
+      <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#list"/></svg>
+      <span>紀錄</span>
+    </a>
+    <a class="tabbar__tab" href="table.html">
+      <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#grid"/></svg>
+      <span>試敏表</span>
+    </a>
+    <a class="tabbar__tab" href="baby.html">
+      <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#baby"/></svg>
+      <span>寶寶</span>
+    </a>
+  </nav>
+</body>
+</html>

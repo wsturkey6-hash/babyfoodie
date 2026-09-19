@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/core.js"></script>
+  <script src="js/record-list.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要內容</a>
@@ -24,10 +25,10 @@
     <script>babyfoodie.renderBabyHeader(document.querySelector('.baby-header'), { link: true });</script>
     <main id="main" class="page" tabindex="-1">
       <h1 class="page-title">紀錄</h1>
-      <section class="card placeholder">
-        <span class="sticker">製作中</span>
-        <p>這裡會列出每一次的副食品紀錄：日期、時間、吃了什麼、份量和觀察。</p>
-      </section>
+      <a class="button button--primary" href="record.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#plus"/></svg>新增紀錄</a>
+      <p class="toast" id="flash" role="status" aria-live="polite"></p>
+      <div class="record-list" id="record-list"></div>
+      <script>babyfoodie.renderRecordList(document.getElementById('record-list'));</script>
     </main>
   </div>
   <nav class="tabbar" aria-label="主要頁面">

@@ -4,7 +4,7 @@
 
 ## 目前階段
 
-試敏表頁完成並上線（https://wsturkey6-hash.github.io/babyfoodie/ ），下一步做紀錄頁。
+紀錄頁完成並上線（https://wsturkey6-hash.github.io/babyfoodie/ ），下一步做匯出／匯入備份。
 
 ## 已完成
 
@@ -19,7 +19,8 @@
 
 - 2026-09-19　試敏表頁：118 項依月齡分區、三種狀態、點食材跳出選單改狀態、標示並自動捲到目前月齡、月份跳轉列、「其他」區提示（js/foods.js 由 SPEC.md 產生、js/table.js）。資料與 HTML 由 Haiku、程式與測試由 Sonnet、樣式由 Sonnet 撰寫，supervisor 審查修正：資料檔錯字（砠瓜→瓠瓜）、儲存失敗時還原狀態、選項字級、跳轉列焦點外框、遮罩後備色、目前月齡貼紙對比；自動測試 40 項（含資料檔與 SPEC.md 逐項比對）；已用 web-design-guidelines 檢查
 
+- 2026-09-19　紀錄頁：列表依日期分組（index.html + js/record-list.js）、獨立填寫頁新增／修改／刪除（record.html + js/record-form.js）、常用食材＋搜尋挑食材（可新增自訂食材）、有反應時詢問標記、「第一次」標示。HTML 由 Haiku、程式與測試由 Sonnet、樣式由 Sonnet 撰寫（樣式 subagent 因額度中斷，最後收尾由 supervisor 完成），supervisor 審查修正：常用食材點掉時焦點亂跳、連點儲存會產生重複紀錄、日期格式改用 Intl、略過的換頁動畫在主控台報錯；自動測試 82 項；已用 web-design-guidelines 檢查
+
 ## 下一步
 
-1. 紀錄頁
-2. 匯出／匯入備份
+1. 匯出／匯入備份

@@ -25,7 +25,11 @@
 { version: 1,
   baby: { name, birthday: 'YYYY-MM-DD' } | null,
   marks: { [食材名稱]: 'untried' | 'tried' | 'reaction' },   // 試敏表上的手動標記
-  records: [{ foods: [食材名稱], ... }],                     // 其他欄位在做紀錄頁時定
+  records: [{ id, date: 'YYYY-MM-DD', time: 'HH:MM',
+              foods: [食材名稱], firstFoods: [存檔時是第一次吃的食材],
+              amount: { value, unit: '匙' | 'ml' | 'g' } | null,
+              reactions: ['紅疹' | '腹瀉' | '嘔吐' | '便秘' | '脹氣'],
+              note, createdAt, updatedAt }],
   customFoods: [食材名稱] }
 ```
 

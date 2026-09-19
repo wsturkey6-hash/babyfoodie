@@ -127,3 +127,35 @@ for (const [ageMonths, expected] of monthGroupExamples) {
     assert.equal(core.currentMonthGroup(ageMonths), expected);
   });
 }
+
+test('nowTime formats local hours and minutes with zero-padding', () => {
+  assert.equal(core.nowTime(new Date(2026, 8, 19, 7, 5)), '07:05');
+  assert.equal(core.nowTime(new Date(2026, 0, 1, 0, 0)), '00:00');
+  assert.equal(core.nowTime(new Date(2026, 0, 1, 23, 59)), '23:59');
+});
+
+const parseAmountOkExamples = [
+  ['', null],
+  ['2', 2],
+  ['0.5', 0.5],
+  ['.5', 0.5],
+  ['2.', 2],
+  ['  2  ', 2],
+  ['９', 9],
+  ['０．５', 0.5],
+  ['9999', 9999]
+];
+
+for (const [text, value] of parseAmountOkExamples) {
+  test(`parseAmount(${JSON.stringify(text)}) accepts`, () => {
+    assert.deepEqual(core.parseAmount(text), { ok: true, value });
+  });
+}
+
+const parseAmountBadExamples = ['abc', '-1', '0', '10000', '1.2.3', '.', '2a'];
+
+for (const text of parseAmountBadExamples) {
+  test(`parseAmount(${JSON.stringify(text)}) rejects`, () => {
+    assert.deepEqual(core.parseAmount(text), { ok: false });
+  });
+}

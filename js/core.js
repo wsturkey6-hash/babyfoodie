@@ -150,6 +150,148 @@
     headerEl.appendChild(root);
   }
 
+  const REACTIONS = ['紅疹', '腹瀉', '嘔吐', '便秘', '脹氣'];
+  const UNITS = ['匙', 'ml', 'g'];
+
+  function nowTime(date = new Date()) {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  function parseAmount(text) {
+    let trimmed = text.trim();
+    trimmed = trimmed.replace(/[０-９]/g, function (ch) {
+      return String.fromCharCode(ch.charCodeAt(0) - 0xFEE0);
+    });
+    trimmed = trimmed.replace(/．/g, '.');
+    if (trimmed === '') return { ok: true, value: null };
+    if (!/^(\d+\.?\d*|\.\d+)$/.test(trimmed)) return { ok: false };
+    const value = Number(trimmed);
+    if (value <= 0 || value > 9999) return { ok: false };
+    return { ok: true, value };
+  }
+
+  function newRecordId() {
+    return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  function sortRecords(records) {
+    const sorted = records.slice();
+    sorted.sort(function (a, b) {
+      if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+      if (a.time !== b.time) return a.time < b.time ? 1 : -1;
+      if (a.createdAt !== b.createdAt) return a.createdAt < b.createdAt ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  }
+
+  function groupRecordsByDate(records) {
+    const sorted = sortRecords(records);
+    const groups = [];
+    for (const record of sorted) {
+      const lastGroup = groups[groups.length - 1];
+      if (lastGroup && lastGroup.date === record.date) {
+        lastGroup.records.push(record);
+      } else {
+        groups.push({ date: record.date, records: [record] });
+      }
+    }
+    return groups;
+  }
+
+  function formatDateHeading(dateISO, todayISOString) {
+    const date = parseISODate(dateISO);
+    const today = parseISODate(todayISOString);
+    const dateMs = Date.UTC(date.year, date.month - 1, date.day);
+    const todayMs = Date.UTC(today.year, today.month - 1, today.day);
+    const diffDays = Math.round((todayMs - dateMs) / 86400000);
+
+    let relative = null;
+    if (diffDays === 0) relative = '今天';
+    else if (diffDays === 1) relative = '昨天';
+
+    const weekday = new Intl.DateTimeFormat('zh-TW', { weekday: 'narrow', timeZone: 'UTC' }).format(dateMs);
+    const dayFormat = date.year === today.year
+      ? { month: 'numeric', day: 'numeric', timeZone: 'UTC' }
+      : { year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'UTC' };
+    const dateText = `${new Intl.DateTimeFormat('zh-TW', dayFormat).format(dateMs)}（${weekday}）`;
+
+    return { relative, date: dateText };
+  }
+
+  function recentFoods(records, limit = 8) {
+    const sorted = sortRecords(records);
+    const seen = new Set();
+    const result = [];
+    for (const record of sorted) {
+      const foods = Array.isArray(record.foods) ? record.foods : [];
+      for (const food of foods) {
+        if (seen.has(food)) continue;
+        seen.add(food);
+        result.push(food);
+        if (result.length >= limit) return result;
+      }
+    }
+    return result;
+  }
+
+  // A food counts as "first time" for a new record when it currently has no
+  // record and no manual mark. Editing keeps the record's own past firstFoods
+  // (if the food is still on it) and re-checks only foods newly added to it,
+  // as if this record didn't exist yet.
+  function computeFirstFoods(state, foods, existingRecord) {
+    if (!existingRecord) {
+      return foods.filter(function (food) {
+        return foodStatus(state, food) === 'untried';
+      });
+    }
+
+    const previousFoods = Array.isArray(existingRecord.foods) ? existingRecord.foods : [];
+    const previousFirstFoods = Array.isArray(existingRecord.firstFoods) ? existingRecord.firstFoods : [];
+    const kept = previousFirstFoods.filter(function (food) {
+      return foods.includes(food);
+    });
+
+    const records = Array.isArray(state.records) ? state.records : [];
+    const stateWithoutExisting = Object.assign({}, state, {
+      records: records.filter(function (record) {
+        return record.id !== existingRecord.id;
+      })
+    });
+
+    const addedFirstFoods = foods.filter(function (food) {
+      return !previousFoods.includes(food) && foodStatus(stateWithoutExisting, food) === 'untried';
+    });
+
+    return kept.concat(addedFirstFoods);
+  }
+
+  function upsertRecord(state, record) {
+    if (!Array.isArray(state.records)) state.records = [];
+    const index = state.records.findIndex(function (r) {
+      return r.id === record.id;
+    });
+    if (index === -1) state.records.push(record);
+    else state.records[index] = record;
+  }
+
+  function deleteRecord(state, id) {
+    if (!Array.isArray(state.records)) state.records = [];
+    state.records = state.records.filter(function (r) {
+      return r.id !== id;
+    });
+  }
+
+  function findRecord(state, id) {
+    const records = Array.isArray(state.records) ? state.records : [];
+    const found = records.find(function (r) {
+      return r.id === id;
+    });
+    return found === undefined ? null : found;
+  }
+
   const babyfoodie = {
     STORAGE_KEY,
     loadState,
@@ -159,12 +301,32 @@
     formatAge,
     foodStatus,
     currentMonthGroup,
-    renderBabyHeader
+    renderBabyHeader,
+    REACTIONS,
+    UNITS,
+    nowTime,
+    parseAmount,
+    newRecordId,
+    sortRecords,
+    groupRecordsByDate,
+    formatDateHeading,
+    recentFoods,
+    computeFirstFoods,
+    upsertRecord,
+    deleteRecord,
+    findRecord
   };
 
   if (typeof module === 'object' && module.exports) {
     module.exports = babyfoodie;
   } else {
     window.babyfoodie = babyfoodie;
+    // Cross-document view transitions reject `ready` when the browser skips
+    // them (hidden tab, rapid navigation); nothing else handles it here.
+    ['pageswap', 'pagereveal'].forEach(function (type) {
+      window.addEventListener(type, function (event) {
+        if (event.viewTransition) event.viewTransition.ready.catch(function () {});
+      });
+    });
   }
 })();

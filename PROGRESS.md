@@ -4,7 +4,7 @@
 
 ## 目前階段
 
-紀錄頁完成並上線（https://wsturkey6-hash.github.io/babyfoodie/ ），下一步做匯出／匯入備份。
+**已整合進 BabyMonster，本專案不再維護。** 副食品紀錄與試敏表搬到 BabyMonster 的「副食品」分頁（2026-10-29），GitHub Pages 已關閉（2026-10-30）。舊資料不搬。
 
 ## 已完成
 
@@ -21,6 +21,8 @@
 
 - 2026-09-19　紀錄頁：列表依日期分組（index.html + js/record-list.js）、獨立填寫頁新增／修改／刪除（record.html + js/record-form.js）、常用食材＋搜尋挑食材（可新增自訂食材）、有反應時詢問標記、「第一次」標示。HTML 由 Haiku、程式與測試由 Sonnet、樣式由 Sonnet 撰寫（樣式 subagent 因額度中斷，最後收尾由 supervisor 完成），supervisor 審查修正：常用食材點掉時焦點亂跳、連點儲存會產生重複紀錄、日期格式改用 Intl、略過的換頁動畫在主控台報錯；自動測試 82 項；已用 web-design-guidelines 檢查
 
+- 2026-10-30　整合進 BabyMonster（https://github.com/wsturkey6-hash/BabyMonster ），關閉 GitHub Pages，README 標註停止維護
+
 ## 下一步
 
-1. 匯出／匯入備份
+無。之後的功能都在 BabyMonster 做。
